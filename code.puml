@@ -1,0 +1,21 @@
+@startuml lolive-application-SPA-create-campaign-code
+actor User
+User -> Campaigns_Page: Open all campaigns page
+User -> Create_Campaign_Button: Click create campaign button 
+Create_Campaign_Button -> Create_Campaign_modal: Open create campaign modal
+User -> Create_Campaign_modal: Fill in campaign details
+User -> Create_Campaign_modal: Click create campaign button
+Frontend_Validation -> Create_Campaign_modal: Validate campaign details
+alt success
+  Create_Campaign_modal -> API: Send request to API
+  alt success
+      API -> Create_Campaign_modal: Return success
+      Create_Campaign_modal -> Campaigns_Page: Close modal and refresh campaigns page
+  else failure
+      API -> Create_Campaign_modal: Return failure
+      Create_Campaign_modal -> Frontend_Validation: Display error message
+  end
+else failure
+  Frontend_Validation -> Create_Campaign_modal: Display error message
+end
+@enduml

@@ -1,0 +1,35 @@
+@startuml lolive-application-container
+title Lolive application container
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "Hirer, Landlord, Administator")
+System_Ext(emailSystem, "Email system", "Sends emails to users")
+System_Ext(GA, "Google Analytics", "trafic analysis")
+System_Ext(oneTrust, "OneTrust", "Cookie Consent Management")
+
+System_Boundary(app, "Lolive application") {
+  Container(web, "Web application", "AWS")
+  Container(spa, "Single page application ", "React, Next.js")
+  Container(api, "API", "REST API", "Python, Django")
+  Container(adminPanel, "Admin panel", "Site administration tool", "Python, Django")
+  ContainerDb(db, "Database", "PostgreSQL")
+  ContainerDb(s3, "Content store", "Amazon S3")
+
+  Rel(user, web, "Visit website")
+  Rel(user, spa, "Views locations and spaces")
+  Rel(user, adminPanel, "Site administration")
+  Rel(web, spa, "Delivers to the customer's web browser")
+  Rel(web, adminPanel, "Delivers to the administrator web browser")
+  Rel(spa, api, "Make API calls to", "JSON/HTTPS")
+  Rel(spa, GA, "Sends analytical data to")
+  Rel(spa, oneTrust, "Sends cookie consent data to")
+  Rel(adminPanel, api, "Make API calls to", "JSON/HTTPS")
+  Rel(api, db, "Read from and writre to")
+  Rel(api, s3, "Upload file to")
+  Rel(api, emailSystem, "Send email using")
+}
+
+Rel(emailSystem, user, "Send email to")
+
+@enduml

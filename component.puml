@@ -1,0 +1,50 @@
+@startuml lolive-application-SPA-component
+title Lolive application SPA component
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Container(api, "API", "REST API", "Python, Django")
+
+Container_Boundary(spa, "Single page application ", "React, Next.js") {
+  Component(hirerPortal, "Hirer Portal", "React")
+  Component(campaignPages, "Campaign pages", "react-router-dom")
+  Component(searchesPages, "Searches pages", "react-router-dom")
+  Component(locationPages, "Location pages", "react-router-dom")
+  Component(spacePages, "Space pages", "react-router-dom")
+
+  Rel(hirerPortal, campaignPages, "Show campaign pages")
+  Rel(hirerPortal, searchesPages, "Show searches pages")
+  Rel(hirerPortal, locationPages, "Show location pages")
+  Rel(hirerPortal, spacePages, "Show space pages")
+
+  Rel(campaignPages, api, "CRUD campaigns", "JSON/HTTPS")
+  Rel(searchesPages, api, "Search requests", "JSON/HTTPS")
+  Rel(locationPages, api, "Request for space data, create booking, option, register interest, etc.", "JSON/HTTPS", "JSON/HTTPS")
+  Rel(spacePages, api, "Request for location data, add location/space to campaigns", "JSON/HTTPS", "JSON/HTTPS")
+
+  Component(landlordPortal, "Landlord Portal", "React")
+  Component(landlordLocationPages, "Location pages", "react-router-dom")
+  Component(landlordReportsPages, "Reports page", "react-router-dom")
+
+  Rel(landlordPortal, landlordLocationPages, "Show location pages")
+  Rel(landlordPortal, landlordReportsPages, "Show reports page")
+
+  Rel(landlordLocationPages, api, "CRUD locations", "JSON/HTTPS")
+  Rel(landlordReportsPages, api, "Request for reports data", "JSON/HTTPS")
+
+  ' Component(allCampaignsPage, "All campaign pages", "/campaigns")
+  ' Component(singleCampaignPages, "Single campaign pages")
+  ' Component(singleCampaignPagesSchedule, "Schedule tab")
+
+  ' Rel(hirerPortal, allCampaignsPage, "Show all campaigns")
+  ' Rel(allCampaignsPage, api, "Sending request to take data, create new campaign, edit, delete existing campaign", "JSON/HTTPS")
+  ' Rel(allCampaignsPage, singleCampaignPages, "Redirect to single campaign page")
+
+  ' Rel(hirerPortal, singleCampaignPages, "Show campaign details")
+  ' Rel(singleCampaignPages, api, "CRUD for campaign", "JSON/HTTPS")
+
+  ' Rel(singleCampaignPages, singleCampaignPagesSchedule, "Show schedule tab")
+  ' Rel(singleCampaignPages, api, "CRUD schedule in campaign", "JSON/HTTPS")
+}
+
+@enduml

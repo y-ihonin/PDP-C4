@@ -1,0 +1,18 @@
+@startuml C4_Container_Diagram
+title Lolive Context
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "User", "Hirer, Landlord, Administator")
+System(app, "Lolive application", "Allows users to rent space, or add location/space to system")
+System_Ext(emailSystem, "Email system", "Sends emails to users")
+System_Ext(GA, "Google Analytics", "trafic analysis")
+System_Ext(oneTrust, "OneTrust", "Cookie Consent Management")
+
+Rel(user, app, "View, rent, add, edit, delete location/space")
+Rel(app, emailSystem, "Send email using")
+Rel(app, GA, "Send information about trafic to")
+Rel(app, oneTrust, "manage cookies using")
+Rel(emailSystem, user, "Send email to")
+
+@enduml
